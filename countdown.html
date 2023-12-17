@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spoedel - Countdown</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://www.kapwing.com/resources/content/images/2020/12/desktop-background.gif');
+            background-size: cover;
+            background-color: #f4f4f4; /* Fallback color if the image is not loaded */
+        }
+
+        header {
+            background-color: #cc0000; /* Dark red */
+            color: #fff;
+            text-align: center;
+            padding: 2em 0;
+        }
+
+        h1 {
+            font-size: 2em;
+        }
+
+        nav {
+            background-color: #333; /* Dark background color for the tabs */
+            overflow: hidden;
+            text-align: center; /* Center the tabs */
+        }
+
+        nav a {
+            display: inline-block;
+            color: #fff;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 1.2em;
+        }
+
+        nav a:hover {
+            background-color: #ddd; /* Light background color on hover */
+            color: #333;
+        }
+
+        section {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8); /* White with 80% transparency */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        h2 {
+            color: #006600; /* Dark green */
+        }
+
+        a {
+            color: #cc0000; /* Dark red */
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Merry Christmas</h1>
+        <p>Welcome to Spoedel.com</p>
+    </header>
+
+    <!-- Navigation Bar with Tabs -->
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="bible-verse.html">Bible Verse</a>
+    </nav>
+
+    <section>
+        <h2>Christmas Countdown</h2>
+        <div id="countdown-text"></div>
+    </section>
+
+    <script>
+        // Christmas Countdown
+        var christmasDate = new Date('December 25, 2023 00:00:00').getTime();
+
+        var countdownInterval = setInterval(function() {
+            var now = new Date().getTime();
+            var distance = christmasDate - now;
+
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById('countdown-text').innerHTML =
+                'Days: ' + days + ' | Hours: ' + hours + ' | Minutes: ' + minutes + ' | Seconds: ' + seconds;
+
+            if (distance < 0) {
+                clearInterval(countdownInterval);
+                document.getElementById('countdown-text').innerHTML = 'Merry Christmas!';
+            }
+        }, 1000);
+    </script>
+
+</body>
+</html>
