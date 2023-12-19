@@ -1,17 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Spoedel - Home</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Arial', sans-serif;
             margin: 0;
             padding: 0;
             background-image: url('https://www.kapwing.com/resources/content/images/2020/12/desktop-background.gif');
             background-size: cover;
             background-color: #f4f4f4;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         header {
@@ -23,12 +35,30 @@
 
         h1 {
             font-size: 2em;
+            margin: 0;
+        }
+
+        p {
+            margin: 10px 0;
         }
 
         nav {
             background-color: #333;
             overflow: hidden;
             text-align: center;
+            animation: slideIn 1s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         nav a {
@@ -38,6 +68,7 @@
             padding: 14px 16px;
             text-decoration: none;
             font-size: 1.2em;
+            transition: background-color 0.3s, color 0.3s;
         }
 
         nav a:hover {
@@ -53,10 +84,12 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 5px;
             border: 1px solid #ddd;
+            animation: fadeIn 1s ease-in-out;
         }
 
         h2 {
             color: #006600;
+            margin-top: 0;
         }
 
         a {
@@ -76,10 +109,18 @@
         .social-links a {
             display: inline-block;
             margin-right: 15px;
+            color: #cc0000;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: #333;
         }
 
         .discord-servers {
             margin-top: 20px;
+            animation: slideIn 1s ease-in-out;
         }
 
         .discord-servers iframe {
@@ -89,6 +130,7 @@
         }
     </style>
 </head>
+
 <body>
     <header>
         <h1>Merry Christmas</h1>
@@ -105,9 +147,7 @@
 
     <section>
         <h2>About Me</h2>
-        <p>
-            Follow my socials and join my Discord servers. My Discord tag is 'spoedel'.
-        </p>
+        <p>Follow my socials and join my Discord servers. My Discord tag is 'spoedel'.</p>
 
         <div class="social-links">
             <h3>Connect with Me:</h3>
@@ -123,5 +163,13 @@
             <iframe src="https://discordapp.com/widget?id=1167978525194723421&theme=dark" height="300" allowtransparency="true" frameborder="0"></iframe>
         </div>
     </section>
+
+    <script>
+        if (location.pathname.endsWith('.html')) {
+            var newPath = location.pathname.replace(/\.html$/, '');
+            history.replaceState({}, '', newPath);
+        }
+    </script>
 </body>
+
 </html>
