@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spoedel - Tic Tac Toe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('https://www.kapwing.com/resources/content/images/2020/12/desktop-background.gif');
+            background-size: cover;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #cc0000;
+            color: #fff;
+            text-align: center;
+            padding: 2em 0;
+        }
+
+        h1 {
+            font-size: 2em;
+        }
+
+        nav {
+            background-color: #333;
+            overflow: hidden;
+            text-align: center;
+        }
+
+        nav a {
+            display: inline-block;
+            color: #fff;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            font-size: 1.2em;
+        }
+
+        nav a:hover {
+            background-color: #ddd;
+            color: #333;
+        }
+
+        section {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        h2 {
+            color: #006600;
+        }
+
+        #tic-tac-toe-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+        }
+
+        .cell {
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            cursor: pointer;
+            background-color: #fff;
+            border: 1px solid #ccc;
+        }
+
+        .cell:hover {
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Merry Christmas</h1>
+        <p>Welcome to Spoedel.com</p>
+    </header>
+
+    <!-- Navigation Bar with Tabs -->
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="countdown.html">Countdown</a>
+        <a href="bible-verse.html">Bible Verse</a>
+        <a href="tic-tac-toe.html">Tic Tac Toe</a>
+    </nav>
+
+    <section>
+        <h2>Tic Tac Toe Game</h2>
+        <p id="win-count">Wins: 0</p>
+        <p id="win-streak">Win Streak: 0</p>
+        <div id="tic-tac-toe-board"></div>
+
+        <script>
+            const boardSize = 3;
+            let currentPlayer = 'X';
+            let board = Array.from({ length: boardSize }, () => Array(boardSize).fill(''));
+            let humanWins = 0;
+            let winStreak = 0;
+
+            function updateWinCount() {
+                document.getElementById('win-count').textContent = `Wins: ${humanWins}`;
+            }
+
+            function updateWinStreak() {
+                document.getElementById('win-streak').textContent = `Win Streak: ${winStreak}`;
+            }
+
+            function initializeBoard() {
+                const boardElement = document.getElementById('tic-tac-toe-board');
+
+                for (let row = 0; row < boardSize; row++) {
+                    for (let col = 0; col < boardSize; col++) {
+                        const cell = document.createElement('div');
+                        cell.classList.add('cell');
+                        cell.dataset.row = row;
+                        cell.dataset.col = col;
+                        cell.addEventListener('click', handleCellClick);
+                        boardElement.appendChild(cell);
+                    }
+                }
+
+                const savedWins = parseInt(getCookie('humanWins')) || 0;
+                if (!isNaN(savedWins)) {
+                    humanWins = savedWins;
+                    updateWinCount();
+                }
+
+                const savedWinStreak = parseInt(getCookie('winStreak')) || 0;
+                if (!isNaN(savedWinStreak)) {
+                    winStreak = savedWinStreak;
+                    updateWinStreak();
+                }
+            }
+
+            function handleCellClick(event) {
+                const row = Number(event.target.dataset.row);
+                const col = Number(event.target.dataset.col);
+
+                if (board[row][col] === '' && !checkWinner(board)) {
+                    board[row][col] = currentPlayer;
+                    event.target.textContent = currentPlayer;
+
+                    if (checkWinner(board)) {
+                        alert(`${currentPlayer} wins!`);
+                        if (currentPlayer === 'X') {
+                            humanWins++;
+                            winStreak++;
+                            updateWinCount();
+                            updateWinStreak();
+                            setCookie('humanWins', humanWins, 7);
+                            setCookie('winStreak', winStreak, 7);
+                        }
+                        resetBoard();
+                    } else if (board.flat().every(cell => cell !== '')) {
+                        alert('It\'s a draw!');
+                        resetBoard();
+                    } else {
+                        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                        if (currentPlayer === 'O') {
+                            setTimeout(makeAiMove, 500);
+                        }
+                    }
+                }
+            }
+
+            function makeAiMove() {
+                const availableMoves = [];
+
+                for (let row = 0; row < boardSize; row++) {
+                    for (let col = 0; col < boardSize; col++) {
+                        if (board[row][col] === '') {
+                            availableMoves.push({ row, col });
+                        }
+                    }
+                }
+
+                if (availableMoves.length > 0) {
+                    const move = getSmartMove(availableMoves);
+                    const aiCell = document.querySelector(`.cell[data-row="${move.row}"][data-col="${move.col}"]`);
+
+                    if (aiCell) {
+                        aiCell.click();
+                    }
+                }
+            }
+
+            function getSmartMove(moves) {
+                for (const move of moves) {
+                    const tempBoard = board.map(row => row.slice());
+                    tempBoard[move.row][move.col] = currentPlayer;
+
+                    if (checkWinner(tempBoard)) {
+                        return move;
+                    }
+                }
+
+                for (const move of moves) {
+                    const tempBoard = board.map(row => row.slice());
+                    tempBoard[move.row][move.col] = currentPlayer === 'X' ? 'O' : 'X';
+
+                    if (checkWinner(tempBoard)) {
+                        return move;
+                    }
+                }
+
+                return moves[Math.floor(Math.random() * moves.length)];
+            }
+
+            function checkWinner(board) {
+                for (let i = 0; i < boardSize; i++) {
+                    if (
+                        (board[i][0] !== '' && board[i].every(cell => cell === board[i][0])) ||
+                        (board[0][i] !== '' && board.every(row => row[i] === board[0][i]))
+                    ) {
+                        return true;
+                    }
+                }
+
+                if (
+                    (board[0][0] !== '' && board.every((row, index) => row[index] === board[0][0])) ||
+                    (board[0][boardSize - 1] !== '' && board.every((row, index) => row[boardSize - 1 - index] === board[0][boardSize - 1]))
+                ) {
+                    return true;
+                }
+
+                return false;
+            }
+
+            function resetBoard() {
+                board = Array.from({ length: boardSize }, () => Array(boardSize).fill(''));
+                currentPlayer = 'X';
+                const cells = document.querySelectorAll('.cell');
+                cells.forEach(cell => {
+                    cell.textContent = '';
+                });
+            }
+
+            function setCookie(name, value, days) {
+                const expires = new Date();
+                expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+                document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+            }
+
+            function getCookie(name) {
+                const cookieName = `${name}=`;
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    let cookie = cookies[i].trim();
+                    if (cookie.startsWith(cookieName)) {
+                        return cookie.substring(cookieName.length, cookie.length);
+                    }
+                }
+                return '';
+            }
+
+            initializeBoard();
+        </script>
+    </section>
+</body>
+</html>
