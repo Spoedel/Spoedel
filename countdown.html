@@ -192,5 +192,13 @@
             }, 1000);
         }
     </script>
+	
+	<script>
+    if (location.pathname.endsWith('.html')) {
+        var newPath = location.pathname.slice(0, -5); // Removes the last 5 characters (.html)
+        history.replaceState({}, '', newPath);
+    }
+</script>
+
 </body>
 </html>
