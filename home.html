@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spoedel - Countdown</title>
+    <meta name="description" content="Spoedel - Personal Website">
+    <meta name="keywords" content="spoedel, social media, discord, games">
+    <title>Spoedel - Home</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -133,9 +136,10 @@
         }
     </style>
 </head>
+
 <body>
     <header>
-        <h1>Countdown</h1>
+        <h1>Welcome to Spoedel.com</h1>
         <p>Made by Joi</p>
     </header>
 
@@ -149,48 +153,30 @@
     </nav>
 
     <section>
-        <h2>Christmas Countdown</h2>
-        <div id="countdown-text"></div>
-    </section>
+        <h2>About Me</h2>
+        <p>I have three Discord servers. My main one is Christmas Countdown, the other is Joy of Christianity, and the third is Dreamcore Creations - also the group where I created 'da backrooms.' The game is currently quite buggy and not entirely finished, but it is playable. I know that I have to come around one day and rewrite everything and finish it at some point, but it's not a priority right now.</p>
 
-    <section>
-        <h2>Summer Countdown</h2>
-        <div id="summer-countdown-text"></div>
+        <div class="social-links">
+            <h3>Connect with Me:</h3>
+            <a href="https://twitter.com/JoyflowsJOC" target="_blank">My Twitter</a>
+            <a href="https://www.instagram.com/Spoedel" target="_blank">My Instagram</a>
+            <a href="https://www.roblox.com/users/120621332/profile" target="_blank">My Roblox</a>
+        </div>
+
+        <div class="discord-servers">
+            <h3>My Discord Servers:</h3>
+            <iframe src="https://discord.com/widget?id=1012818404882796575&theme=dark" height="300" allowtransparency="true" frameborder="0"></iframe>
+            <iframe src="https://discordapp.com/widget?id=948674501623816232&theme=dark" height="300" allowtransparency="true" frameborder="0"></iframe>
+            <iframe src="https://discordapp.com/widget?id=1167978525194723421&theme=dark" height="300" allowtransparency="true" frameborder="0"></iframe>
+        </div>
     </section>
 
     <script>
-        // Christmas Countdown
-        var christmasDate = new Date('December 25, 2024 00:00:00').getTime();
-        var christmasInterval = setCountdown(christmasDate, 'Christmas Countdown', 'Merry Christmas!');
-
-        // Summer Countdown
-        var summerDate = new Date('June 21, 2024 00:00:00').getTime();
-        var summerInterval = setCountdown(summerDate, 'Summer Countdown', 'Happy Summer!');
-
-        function setCountdown(targetDate, headingText, finishMessage) {
-            return setInterval(function () {
-                var now = new Date().getTime();
-                var distance = targetDate - now;
-
-                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                var countdownText = 'Days: ' + days + ' | Hours: ' + hours + ' | Minutes: ' + minutes + ' | Seconds: ' + seconds;
-
-                if (headingText === 'Christmas Countdown') {
-                    document.getElementById('countdown-text').innerHTML = headingText + '<br>' + countdownText;
-                } else if (headingText === 'Summer Countdown') {
-                    document.getElementById('summer-countdown-text').innerHTML = headingText + '<br>' + countdownText;
-                }
-
-                if (distance < 0) {
-                    clearInterval(christmasInterval);
-                    document.getElementById('countdown-text').innerHTML = finishMessage;
-                }
-            }, 1000);
+        if (location.pathname.endsWith('.html')) {
+            var newPath = location.pathname.replace(/\.html$/, '');
+            history.replaceState({}, '', newPath);
         }
     </script>
 </body>
+
 </html>

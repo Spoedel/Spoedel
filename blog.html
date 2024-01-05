@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spoedel - Countdown</title>
+    <meta name="description" content="Spoedel - Blog">
+    <meta name="keywords" content="spoedel, blog, articles">
+    <title>Spoedel - Blog</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -15,20 +18,6 @@
             animation: fadeIn 1s ease-in-out;
         }
 
-        img {
-            display: none;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-
-            to {
-                opacity: 1;
-            }
-        }
-
         header {
             background-color: #ffb347; /* Pastel Orange Header Color */
             color: #fff;
@@ -38,7 +27,6 @@
 
         h1 {
             font-size: 2em;
-            margin: 0;
         }
 
         p {
@@ -105,37 +93,34 @@
             text-decoration: underline;
         }
 
-        .social-links {
-            margin-top: 20px;
+        .blog-post {
+            margin-bottom: 30px;
         }
 
-        .social-links a {
-            display: inline-block;
-            margin-right: 15px;
-            color: #ff6347; /* Tomato Social Link Color */
-            font-weight: bold;
-            transition: color 0.3s;
+        .blog-post h3 {
+            color: #20b2aa; /* Light Sea Green Blog Post Header Color */
+            margin-top: 0;
         }
 
-        .social-links a:hover {
-            color: #333;
+        .blog-post p {
+            line-height: 1.6;
         }
 
-        .discord-servers {
-            margin-top: 20px;
-            animation: slideIn 1s ease-in-out;
-        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
 
-        .discord-servers iframe {
-            width: 100%;
-            height: 300px;
-            border: 1px solid #ccc;
+            to {
+                opacity: 1;
+            }
         }
     </style>
 </head>
+
 <body>
     <header>
-        <h1>Countdown</h1>
+        <h1>Welcome to Spoedel.com</h1>
         <p>Made by Joi</p>
     </header>
 
@@ -149,48 +134,23 @@
     </nav>
 
     <section>
-        <h2>Christmas Countdown</h2>
-        <div id="countdown-text"></div>
-    </section>
+        <h2>Blog</h2>
 
-    <section>
-        <h2>Summer Countdown</h2>
-        <div id="summer-countdown-text"></div>
+        <!-- Blog Post 1 -->
+        <div class="blog-post">
+            <h3>Website Update</h3>
+            <p>I have updated the website's design and added a blog section for myself. I will post updates here about my projects, both those within this website and others
+			outside, such as my new game development, etc. Therefore, you can expect a lot of updates here whenever I make improvements to the and more.󠁧󠁢󠁥󠁮󠁧󠁿</p>
+        </div>
+
     </section>
 
     <script>
-        // Christmas Countdown
-        var christmasDate = new Date('December 25, 2024 00:00:00').getTime();
-        var christmasInterval = setCountdown(christmasDate, 'Christmas Countdown', 'Merry Christmas!');
-
-        // Summer Countdown
-        var summerDate = new Date('June 21, 2024 00:00:00').getTime();
-        var summerInterval = setCountdown(summerDate, 'Summer Countdown', 'Happy Summer!');
-
-        function setCountdown(targetDate, headingText, finishMessage) {
-            return setInterval(function () {
-                var now = new Date().getTime();
-                var distance = targetDate - now;
-
-                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-                var countdownText = 'Days: ' + days + ' | Hours: ' + hours + ' | Minutes: ' + minutes + ' | Seconds: ' + seconds;
-
-                if (headingText === 'Christmas Countdown') {
-                    document.getElementById('countdown-text').innerHTML = headingText + '<br>' + countdownText;
-                } else if (headingText === 'Summer Countdown') {
-                    document.getElementById('summer-countdown-text').innerHTML = headingText + '<br>' + countdownText;
-                }
-
-                if (distance < 0) {
-                    clearInterval(christmasInterval);
-                    document.getElementById('countdown-text').innerHTML = finishMessage;
-                }
-            }, 1000);
+        if (location.pathname.endsWith('.html')) {
+            var newPath = location.pathname.replace(/\.html$/, '');
+            history.replaceState({}, '', newPath);
         }
     </script>
 </body>
+
 </html>
